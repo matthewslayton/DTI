@@ -3,8 +3,11 @@
 ### otherwise, our variance explained is artificially inflated
 
 # make sure to check out stamp_lavaan_multLevel_dec2.R which does the same but with the Mariam mem values
-
+# also stamp_lavaan_multLevel_memAsMediator_dec23.R
+# and the one for remembered and forgotten
 # https://www.youtube.com/watch?v=GZMXEq7GPvY
+
+
 
 
 library(dplyr)
@@ -51,21 +54,41 @@ vis <- import_list("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniv
 #fcn <- import_list("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/nmf_spreadsheets/avgActivity_BNA_nnmf_fcn_additionalROIs_unilateral.xlsx")
 memColWithNaN <- import_list("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/correctMemColsWithNaNsNot999.xlsx")
 
+# let's check the 300 the Ps actually saw. How could the full 995 be better?
+encycl_300 <- import_list("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/nmf_spreadsheets/avgActivity_BNA_nnmf_encycl_300_additionalROIs_unilateral.xlsx")
+vis_300 <- import_list("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/nmf_spreadsheets/avgActivity_BNA_nnmf_vis_300_additionalROIs_unilateral.xlsx")
+
+# what about remembered and forgotten?
+# encycl_remembered <- importlist("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/nmf_spreadsheets/avgActivity_remembered_BNA_nnmf_encycl_additionalROIs_unilateral.xlsx")
+# encycl_forgotten <- importlist("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/nmf_spreadsheets/avgActivity_forgotten_BNA_nnmf_encycl_additionalROIs_unilateral.xlsx")
+# encycl_300_remembered <- importlist("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/nmf_spreadsheets/avgActivity_remembered_BNA_nnmf_encycl_300_additionalROIs_unilateral.xlsx")
+# encycl_300_forgotten <- importlist("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/nmf_spreadsheets/avgActivity_forgotten_BNA_nnmf_encycl_300_additionalROIs_unilateral.xlsx")
+# vis_remembered <- importlist("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/nmf_spreadsheets/avgActivity_remembered_BNA_nnmf_vis_additionalROIs_unilateral.xlsx")
+# vis_forgotten <- importlist("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/nmf_spreadsheets/avgActivity_forgotten_BNA_nnmf_vis_additionalROIs_unilateral.xlsx")
+# vis_300_remembered <- importlist("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/nmf_spreadsheets/avgActivity_remembered_BNA_nnmf_vis_300_additionalROIs_unilateral.xlsx")
+# vis_300_forgotten <- importlist("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/nmf_spreadsheets/avgActivity_forgotten_BNA_nnmf_vis_300_additionalROIs_unilateral.xlsx")
+
+
 #tbl_names <- c("encycl","vis","fcn")
-tbl_names <- c("encycl","vis")
+#tbl_names <- c("encycl","vis")
+tbl_names <- c("encycl","vis","encycl_300","vis_300")
+# alt_tbl_names <- c("encycl_remembered","encycl_forgotten","vis_remembered","vis_forgotten",
+#                    "encycl_300_remembered","encycl_300_forgotten","vis_300_remembered","vis_300_forgotten")
 memType <- c("lexical_CR","visual_CR")
+
+
 
 #indirectEffects_output_df <- data.frame(tbl=character(),mem=character(),ROI=character(),hemisphere=character(),sigPred=character(),b_type=character(),a_path=numeric(),b_path=numeric(),c_path=numeric(),indirectEffect=numeric(),LL=numeric(), UL=numeric(), significant=logical())
 mediation_output_df <- data.frame(tbl=character(),mem=character(),ROI=character(),hemisphere=character(),resultType=character(),estimate=numeric(),std_err=numeric(),zval=numeric(),pval=numeric(),ci_lower=numeric(),ci_upper=numeric()) #could replace character() with factor()for (ROI_name in ROI_name_variable) {
 
 #tbl <- "encycl"
-#mem <- "lexical_CR"
-#ROI_name <- 'mask_AG_L'
+# tbl <- "encycl_300"
+# mem <- "lexical_CR"
+# ROI_name <- 'mask_AG_L'
+
 
 for (tbl in tbl_names) {
   for (mem in memType) {
-    
-
     for (ROI_name in ROI_name_variable) {
       
       # (0) get your variables
@@ -103,7 +126,7 @@ for (tbl in tbl_names) {
       # (2) clean those NaN rows
       Data_mixed <- data.frame(X=X, Y=Y, M1=M1,M2=M2,M3=M3,M4=M4,M5=M5,M6=M6,M7=M7,M8=M8,Subj=Subj,ItemID=ItemID)
       Data_mixed_clean <- na.omit(Data_mixed)
-    
+      
       ### clustering by subject doesn't work.      
       ### we have to cluster by ItemID
       # At level one it will calculate the item intercepts for you to test at level 2
@@ -112,7 +135,7 @@ for (tbl in tbl_names) {
       ### also remember that multilevel/mixed-effects are the same in this context.
       # just two ways of talking about the same things. Using mixed effects models is great
       # but if you can get to the same end with levels, then so much the better
-     
+      
       # Cortney They are equivalent in this context because X and M don't also vary by item and subject
       # The “mixed” part is referring to the fact that we have both random and fixed effects. 
       # In multilevel models you can have both, but only the random effects are required
@@ -122,7 +145,7 @@ for (tbl in tbl_names) {
       # lavaan is giving us a true multilevel model, just it’s not calculating the random 
       # and fixed effect in the same model (it isn’t mixed, only multilevel)
       
-
+      
       model221 <- '
       level:1
       Y~1
@@ -201,8 +224,7 @@ for (tbl in tbl_names) {
       mediation_output_df <- rbind(mediation_output_df,b1,b2,b3,b4,b5,b6,b7,b8,c,
                                    a1,a2,a3,a4,a5,a6,a7,a8,
                                    indirect1,indirect2,indirect3,indirect4,indirect5,indirect6,indirect7,indirect8,totalIndirect,totalEffect)
-    
-    
+      
     } #end ROI_name_variable
   } #end memType
 } #end tbl_names
@@ -243,8 +265,9 @@ if (class(mediation_output_df$ci_upper) == "character")
 }
 
 # write to spreadsheet
-filename <- '/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/medAnalysis_multilevel_unilateral.xlsx'
+filename <- '/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/medAnalysis_multilevel_unilateral_with300.xlsx'
 write_xlsx(mediation_output_df, filename)
+
 
 
 
