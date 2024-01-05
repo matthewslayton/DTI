@@ -17,16 +17,14 @@ Step 6 make RDMs
 	- One for semantic and one for visual
 	- Load the RDMs. For semantic, I do this weird thing where I load them, but then I re-do them
 	- That's because I need 120 items per day, not the 995 total, so I get those rows from the feature matrix and re-do corrcoef
-	- Remember, you want the stimIDs from all three runs for that day, and then you sorte them in order. The runs are important for IRAF which comes in another script
+	- Remember, you want the stimIDs from all three runs for that day, and then you sort them in order. The runs are important for IRAF which comes in another script
 	- Then I save the info to separate folders, one per day. 
 	- Then the big thing comes. I find the corr values between the model RDM and the neural RDM. This has a few steps
 		-First, change the diagonal of 1s to NaNs and the bottom triangle to 0s. That way you have the upper triangular part of the matrix
 		-Then load the neural RDM and do the same thing
 		-Find corrcoef and save. (It's per day)
 
-Step 7 colour atlas
-	- This makes a brain map with the corr values per ROI.
-	- It's a function that I can't seem to get running, but you can just load the inputs yourself and run the lines manually. It's fine
+Step 7 make RDMs and run RSA. This version does IRAF. I do have an old version called step7_alt, but there are other inefficiencies there that I should take a look at. step7_makeRDMs_runRSA.m. I think all I need to do is find the correlation between the whole matrices and not one row at a time (and make sure to only grab half the triangle) and I'll have regular/general RSA.
 
 Step 8 RSA corr t-test
 	- Now we want to compare the RSA results for each subject and day
@@ -34,7 +32,9 @@ Step 8 RSA corr t-test
 	- Make a table for the data, split into day-specific matrices, noralize with atanh() and do t-test
 	- The script has lots of extra stuff where I did additional analyses (such as comparing relative change rather than absolute values per day) and looking at specific ROIs. In particular, we're interested in the stimulation site ROI
 
-Step 9 will probably be IRAF
+Step 9 colour atlas
+	- This makes a brain map with the corr values per ROI.
+	- It's a function that I can't seem to get running, but you can just load the inputs yourself and run the lines manually. It's fine
 
 
 

@@ -1,4 +1,4 @@
-%%% this script makes model RDMs and then finds corr between  model RDMs and neural RDMs for each ROI
+%%% this script makes model RDMs and then finds corr between model RDMs and neural RDMs for each ROI
 
 %to do semantic RSA you'll need RDMs for each day (120 items), sorted numerically (1,2,3...)
 % go back to step6_makeSemRDMs.m if you don't already have them
@@ -27,10 +27,10 @@ subjects = {'5002','5007','5010','5011','5012','5014',...
 % So far we have 120 trials per day * 246 ROIs which is 29,520 per subject
 howManyRows = length(subjects) * 120 * 246;
 
-allSubj_day1 = zeros(howManyRows,14);
-allSubj_day2 = zeros(howManyRows,14);
-allSubj_day3 = zeros(howManyRows,14);
-allSubj_day4 = zeros(howManyRows,14);
+allSubj_day1_IRAF = zeros(howManyRows,14);
+allSubj_day2_IRAF = zeros(howManyRows,14);
+allSubj_day3_IRAF = zeros(howManyRows,14);
+allSubj_day4_IRAF = zeros(howManyRows,14);
 
 % I don't really have a great solution for this. I need to add the
 % similarity info and pairIDs, so I'm going to load them separately.
@@ -187,7 +187,7 @@ for subj = 1:length(subjects)
     day1_RDM(logical(eye(size(day1_RDM)))) = NaN;
     % turn the bottom triangle of the RDM to 0s
     %%%%% for IRAF we do the whole thing. For regular RSA, we get the upper half triangular half
-    day1_RDM = triu(day1_RDM); %get upper triangular part of matrix
+    %day1_RDM = triu(day1_RDM); %get upper triangular part of matrix
     % turn those 0s into NaNs
     day1_RDM(day1_RDM==0)=NaN;
     
@@ -203,7 +203,7 @@ for subj = 1:length(subjects)
     
     load(strcat(subject,'_day2_RDM.mat'))
     day2_RDM(logical(eye(size(day2_RDM)))) = NaN;
-    day2_RDM = triu(day2_RDM);
+    %day2_RDM = triu(day2_RDM);
     day2_RDM(day2_RDM==0)=NaN;
     for row = 1:length(day2_RDM) 
         for col = 1:length(day2_RDM)
@@ -215,7 +215,7 @@ for subj = 1:length(subjects)
     
     load(strcat(subject,'_day3_RDM.mat'))
     day3_RDM(logical(eye(size(day3_RDM)))) = NaN;
-    day3_RDM = triu(day3_RDM);
+    %day3_RDM = triu(day3_RDM);
     day3_RDM(day3_RDM==0)=NaN;
     for row = 1:length(day3_RDM) 
         for col = 1:length(day3_RDM)
@@ -227,7 +227,7 @@ for subj = 1:length(subjects)
     
     load(strcat(subject,'_day4_RDM.mat'))
     day4_RDM(logical(eye(size(day4_RDM)))) = NaN;
-    day4_RDM = triu(day4_RDM); 
+    %day4_RDM = triu(day4_RDM); 
     day4_RDM(day4_RDM==0)=NaN;
     for row = 1:length(day4_RDM) 
         for col = 1:length(day4_RDM)
@@ -243,7 +243,7 @@ for subj = 1:length(subjects)
     % change the diagonal of 1s to NaNs
     day1_layer_3_RDM(logical(eye(size(day1_layer_3_RDM)))) = NaN;
     % turn the bottom triangle of the RDM to 0s
-    day1_layer_3_RDM = triu(day1_layer_3_RDM);
+    %day1_layer_3_RDM = triu(day1_layer_3_RDM);
     % turn those 0s into NaNs
     day1_layer_3_RDM(day1_layer_3_RDM==0)=NaN;
     for row = 1:length(day1_layer_3_RDM) 
@@ -255,7 +255,7 @@ for subj = 1:length(subjects)
     end
     % layer 10
     day1_layer_10_RDM(logical(eye(size(day1_layer_10_RDM)))) = NaN;
-    day1_layer_10_RDM = triu(day1_layer_10_RDM);
+   % day1_layer_10_RDM = triu(day1_layer_10_RDM);
     day1_layer_10_RDM(day1_layer_10_RDM==0)=NaN;
     for row = 1:length(day1_layer_10_RDM) 
         for col = 1:length(day1_layer_10_RDM)
@@ -266,7 +266,7 @@ for subj = 1:length(subjects)
     end
     % layer 18
     day1_layer_18_RDM(logical(eye(size(day1_layer_18_RDM)))) = NaN;
-    day1_layer_18_RDM = triu(day1_layer_18_RDM);
+    %day1_layer_18_RDM = triu(day1_layer_18_RDM);
     day1_layer_18_RDM(day1_layer_18_RDM==0)=NaN;
     for row = 1:length(day1_layer_18_RDM) 
         for col = 1:length(day1_layer_18_RDM)
@@ -278,7 +278,7 @@ for subj = 1:length(subjects)
     % DAY 2
     % layer 3
     day2_layer_3_RDM(logical(eye(size(day2_layer_3_RDM)))) = NaN;
-    day2_layer_3_RDM = triu(day2_layer_3_RDM);
+    %day2_layer_3_RDM = triu(day2_layer_3_RDM);
     day2_layer_3_RDM(day2_layer_3_RDM==0)=NaN;
     for row = 1:length(day2_layer_3_RDM) 
         for col = 1:length(day2_layer_3_RDM)
@@ -289,7 +289,7 @@ for subj = 1:length(subjects)
     end
     % layer 10
     day2_layer_10_RDM(logical(eye(size(day2_layer_10_RDM)))) = NaN;
-    day2_layer_10_RDM = triu(day2_layer_10_RDM);
+    %day2_layer_10_RDM = triu(day2_layer_10_RDM);
     day2_layer_10_RDM(day2_layer_10_RDM==0)=NaN;
     for row = 1:length(day2_layer_10_RDM) 
         for col = 1:length(day2_layer_10_RDM)
@@ -300,7 +300,7 @@ for subj = 1:length(subjects)
     end
     % layer 18
     day2_layer_18_RDM(logical(eye(size(day2_layer_18_RDM)))) = NaN;
-    day2_layer_18_RDM = triu(day2_layer_18_RDM);
+    %day2_layer_18_RDM = triu(day2_layer_18_RDM);
     day2_layer_18_RDM(day2_layer_18_RDM==0)=NaN;
     for row = 1:length(day2_layer_18_RDM) 
         for col = 1:length(day2_layer_18_RDM)
@@ -312,7 +312,7 @@ for subj = 1:length(subjects)
     % DAY 3
     % layer 3
     day3_layer_3_RDM(logical(eye(size(day3_layer_3_RDM)))) = NaN;
-    day3_layer_3_RDM = triu(day3_layer_3_RDM);
+    %day3_layer_3_RDM = triu(day3_layer_3_RDM);
     day3_layer_3_RDM(day3_layer_3_RDM==0)=NaN;
     for row = 1:length(day3_layer_3_RDM) 
         for col = 1:length(day3_layer_3_RDM)
@@ -323,7 +323,7 @@ for subj = 1:length(subjects)
     end
     % layer 10
     day3_layer_10_RDM(logical(eye(size(day3_layer_10_RDM)))) = NaN;
-    day3_layer_10_RDM = triu(day3_layer_10_RDM);
+    %day3_layer_10_RDM = triu(day3_layer_10_RDM);
     day3_layer_10_RDM(day3_layer_10_RDM==0)=NaN;
     for row = 1:length(day3_layer_10_RDM) 
         for col = 1:length(day3_layer_10_RDM)
@@ -334,7 +334,7 @@ for subj = 1:length(subjects)
     end
     % layer 18
     day3_layer_18_RDM(logical(eye(size(day3_layer_18_RDM)))) = NaN;
-    day3_layer_18_RDM = triu(day3_layer_18_RDM);
+    %day3_layer_18_RDM = triu(day3_layer_18_RDM);
     day3_layer_18_RDM(day3_layer_18_RDM==0)=NaN;
     for row = 1:length(day3_layer_18_RDM) 
         for col = 1:length(day3_layer_18_RDM)
@@ -346,7 +346,7 @@ for subj = 1:length(subjects)
     % DAY 4
     % layer 3
     day4_layer_3_RDM(logical(eye(size(day4_layer_3_RDM)))) = NaN;
-    day4_layer_3_RDM = triu(day4_layer_3_RDM);
+    %day4_layer_3_RDM = triu(day4_layer_3_RDM);
     day4_layer_3_RDM(day4_layer_3_RDM==0)=NaN;
     for row = 1:length(day4_layer_3_RDM) 
         for col = 1:length(day4_layer_3_RDM)
@@ -357,7 +357,7 @@ for subj = 1:length(subjects)
     end
     % layer 10
     day4_layer_10_RDM(logical(eye(size(day4_layer_10_RDM)))) = NaN;
-    day4_layer_10_RDM = triu(day4_layer_10_RDM);
+    %day4_layer_10_RDM = triu(day4_layer_10_RDM);
     day4_layer_10_RDM(day4_layer_10_RDM==0)=NaN;
     for row = 1:length(day4_layer_10_RDM) 
         for col = 1:length(day4_layer_10_RDM)
@@ -368,7 +368,7 @@ for subj = 1:length(subjects)
     end
     % layer 18
     day4_layer_18_RDM(logical(eye(size(day4_layer_18_RDM)))) = NaN;
-    day4_layer_18_RDM = triu(day4_layer_18_RDM);
+    %day4_layer_18_RDM = triu(day4_layer_18_RDM);
     day4_layer_18_RDM(day4_layer_18_RDM==0)=NaN;
     for row = 1:length(day4_layer_18_RDM) 
         for col = 1:length(day4_layer_18_RDM)
@@ -382,10 +382,10 @@ for subj = 1:length(subjects)
     %%%% (4) Run RSA. We need to do this for all 246 brainnetome ROIs %%%%
 
     addpath(strcat('/Volumes/Data/Simon/NetTMS.01/Analysis/SingleTrialModels/June_2023_LSS/RSA_mats/',subject,'/'));
-    sem_day1 = zeros(120,246); %trial by ROI
-    layer3_day1 = zeros(120,246);
-    layer10_day1 = zeros(120,246);
-    layer18_day1 = zeros(120,246);
+    IRAF_sem_day1 = zeros(120,246); %trial by ROI
+    IRAF_layer3_day1 = zeros(120,246);
+    IRAF_layer10_day1 = zeros(120,246);
+    IRAF_layer18_day1 = zeros(120,246);
    
     for mat = 1:246 %246 ROIs
         % load the brain RDM
@@ -394,7 +394,7 @@ for subj = 1:length(subjects)
         % change the diagonal of 1s to NaNs
         R(logical(eye(size(R)))) = NaN;
         % turn the bottom triangle of the RDM to 0s
-        R = triu(R);
+        %R = triu(R);
         % turn those 0s into NaNs
         R(R==0)=NaN;
             
@@ -403,22 +403,22 @@ for subj = 1:length(subjects)
                 % we have one semantic RDM and three visual RDMs
                 % day1_RDM, day1_layer_3_RDM, day1_layer_10_RDM,day1_layer_18_RDM
                 currCorr = corrcoef(day1_RDM(row,:),R(row,:),'rows','pairwise');
-                sem_day1(row,mat) = currCorr(1,2);
+                IRAF_sem_day1(row,mat) = currCorr(1,2);
     
                 currCorr = corrcoef(day1_layer_3_RDM(row,:),R(row,:),'rows','pairwise');
-                layer3_day1(row,mat) = currCorr(1,2);
+                IRAF_layer3_day1(row,mat) = currCorr(1,2);
     
                 currCorr = corrcoef(day1_layer_10_RDM(row,:),R(row,:),'rows','pairwise');
-                layer10_day1(row,mat) = currCorr(1,2);
+                IRAF_layer10_day1(row,mat) = currCorr(1,2);
     
                 currCorr = corrcoef(day1_layer_18_RDM(row,:),R(row,:),'rows','pairwise');
-                layer18_day1(row,mat) = currCorr(1,2);
+                IRAF_layer18_day1(row,mat) = currCorr(1,2);
             
             catch
-                sem_day1(row,mat) = NaN;
-                layer3_day1(row,mat) = NaN;
-                layer10_day1(row,mat) = NaN;
-                layer18_day1(row,mat) = NaN;
+                IRAF_sem_day1(row,mat) = NaN;
+                IRAF_layer3_day1(row,mat) = NaN;
+                IRAF_layer10_day1(row,mat) = NaN;
+                IRAF_layer18_day1(row,mat) = NaN;
             end %try-catch
         end %row loop for RDMs
         clear R
@@ -428,10 +428,10 @@ for subj = 1:length(subjects)
     end %mat loop
 
     %%% Day 2
-    sem_day2 = zeros(120,246); 
-    layer3_day2 = zeros(120,246);
-    layer10_day2 = zeros(120,246);
-    layer18_day2 = zeros(120,246);
+    IRAF_sem_day2 = zeros(120,246); 
+    IRAF_layer3_day2 = zeros(120,246);
+    IRAF_layer10_day2 = zeros(120,246);
+    IRAF_layer18_day2 = zeros(120,246);
     for mat = 1:246
         fileName = sprintf('%s_ROI%03d_Day2.mat',subject,mat);
         load(fileName)
@@ -439,29 +439,29 @@ for subj = 1:length(subjects)
         % change the diagonal of 1s to NaNs
         R(logical(eye(size(R)))) = NaN;
         % turn the bottom triangle of the RDM to 0s
-        R = triu(R);
+        %R = triu(R);
         % turn those 0s into NaNs
         R(R==0)=NaN;
             
         for row = 1:size(R,1) %rows
             try
                 currCorr = corrcoef(day2_RDM(row,:),R(row,:),'rows','pairwise');
-                sem_day2(row,mat) = currCorr(1,2);
+                IRAF_sem_day2(row,mat) = currCorr(1,2);
     
                 currCorr = corrcoef(day2_layer_3_RDM(row,:),R(row,:),'rows','pairwise');
-                layer3_day2(row,mat) = currCorr(1,2);
+                IRAF_layer3_day2(row,mat) = currCorr(1,2);
     
                 currCorr = corrcoef(day2_layer_10_RDM(row,:),R(row,:),'rows','pairwise');
-                layer10_day2(row,mat) = currCorr(1,2);
+                IRAF_layer10_day2(row,mat) = currCorr(1,2);
     
                 currCorr = corrcoef(day2_layer_18_RDM(row,:),R(row,:),'rows','pairwise');
-                layer18_day2(row,mat) = currCorr(1,2);
+                IRAF_layer18_day2(row,mat) = currCorr(1,2);
             
             catch
-                sem_day2(row,mat) = NaN;
-                layer3_day2(row,mat) = NaN;
-                layer10_day2(row,mat) = NaN;
-                layer18_day2(row,mat) = NaN;
+                IRAF_sem_day2(row,mat) = NaN;
+                IRAF_layer3_day2(row,mat) = NaN;
+                IRAF_layer10_day2(row,mat) = NaN;
+                IRAF_layer18_day2(row,mat) = NaN;
             end %try-catch
         end %row loop for RDMs
         clear R
@@ -471,10 +471,10 @@ for subj = 1:length(subjects)
     end %mat loop
 
     %%% Day 3
-    sem_day3 = zeros(120,246); 
-    layer3_day3 = zeros(120,246);
-    layer10_day3 = zeros(120,246);
-    layer18_day3 = zeros(120,246);
+    IRAF_sem_day3 = zeros(120,246); 
+    IRAF_layer3_day3 = zeros(120,246);
+    IRAF_layer10_day3 = zeros(120,246);
+    IRAF_layer18_day3 = zeros(120,246);
     for mat = 1:246
         fileName = sprintf('%s_ROI%03d_Day3.mat',subject,mat);
         load(fileName)
@@ -482,29 +482,29 @@ for subj = 1:length(subjects)
         % change the diagonal of 1s to NaNs
         R(logical(eye(size(R)))) = NaN;
         % turn the bottom triangle of the RDM to 0s
-        R = triu(R);
+        %R = triu(R);
         % turn those 0s into NaNs
         R(R==0)=NaN;
             
         for row = 1:size(R,1) %rows
             try
                 currCorr = corrcoef(day3_RDM(row,:),R(row,:),'rows','pairwise');
-                sem_day3(row,mat) = currCorr(1,2);
+                IRAF_sem_day3(row,mat) = currCorr(1,2);
     
                 currCorr = corrcoef(day3_layer_3_RDM(row,:),R(row,:),'rows','pairwise');
-                layer3_day3(row,mat) = currCorr(1,2);
+                IRAF_layer3_day3(row,mat) = currCorr(1,2);
     
                 currCorr = corrcoef(day3_layer_10_RDM(row,:),R(row,:),'rows','pairwise');
-                layer10_day3(row,mat) = currCorr(1,2);
+                IRAF_layer10_day3(row,mat) = currCorr(1,2);
     
                 currCorr = corrcoef(day3_layer_18_RDM(row,:),R(row,:),'rows','pairwise');
-                layer18_day3(row,mat) = currCorr(1,2);
+                IRAF_layer18_day3(row,mat) = currCorr(1,2);
             
             catch
-                sem_day3(row,mat) = NaN;
-                layer3_day3(row,mat) = NaN;
-                layer10_day3(row,mat) = NaN;
-                layer18_day3(row,mat) = NaN;
+                IRAF_sem_day3(row,mat) = NaN;
+                IRAF_layer3_day3(row,mat) = NaN;
+                IRAF_layer10_day3(row,mat) = NaN;
+                IRAF_layer18_day3(row,mat) = NaN;
             end %try-catch
         end %row loop for RDMs
         clear R
@@ -514,39 +514,39 @@ for subj = 1:length(subjects)
     end %mat loop
 
     %%% Day 4
-    sem_day4 = zeros(120,246); 
-    layer3_day4 = zeros(120,246);
-    layer10_day4 = zeros(120,246);
-    layer18_day4 = zeros(120,246);
+    IRAF_sem_day4 = zeros(120,246); 
+    IRAF_layer3_day4 = zeros(120,246);
+    IRAF_layer10_day4 = zeros(120,246);
+    IRAF_layer18_day4 = zeros(120,246);
     for mat = 1:246
         fileName = sprintf('%s_ROI%03d_Day4.mat',subject,mat);
         load(fileName)
         % change the diagonal of 1s to NaNs
         R(logical(eye(size(R)))) = NaN;
         % turn the bottom triangle of the RDM to 0s
-        R = triu(R);
+        %R = triu(R);
         % turn those 0s into NaNs
         R(R==0)=NaN;
             
         for row = 1:size(R,1) %rows
             try
                 currCorr = corrcoef(day4_RDM(row,:),R(row,:),'rows','pairwise');
-                sem_day4(row,mat) = currCorr(1,2);
+                IRAF_sem_day4(row,mat) = currCorr(1,2);
     
                 currCorr = corrcoef(day4_layer_3_RDM(row,:),R(row,:),'rows','pairwise');
-                layer3_day4(row,mat) = currCorr(1,2);
+                IRAF_layer3_day4(row,mat) = currCorr(1,2);
     
                 currCorr = corrcoef(day4_layer_10_RDM(row,:),R(row,:),'rows','pairwise');
-                layer10_day4(row,mat) = currCorr(1,2);
+                IRAF_layer10_day4(row,mat) = currCorr(1,2);
     
                 currCorr = corrcoef(day4_layer_18_RDM(row,:),R(row,:),'rows','pairwise');
-                layer18_day4(row,mat) = currCorr(1,2);
+                IRAF_layer18_day4(row,mat) = currCorr(1,2);
             
             catch
-                sem_day4(row,mat) = NaN;
-                layer3_day4(row,mat) = NaN;
-                layer10_day4(row,mat) = NaN;
-                layer18_day4(row) = NaN;
+                IRAF_sem_day4(row,mat) = NaN;
+                IRAF_layer3_day4(row,mat) = NaN;
+                IRAF_layer10_day4(row,mat) = NaN;
+                IRAF_layer18_day4(row) = NaN;
             end %try-catch
         end %row loop for RDMs
         clear R
@@ -610,20 +610,20 @@ for subj = 1:length(subjects)
     %%%% (5) Put everything into one massive table %%%%
 
     % first set up doubles
-    subMem_day1 = zeros(120*246,14);
-    subMem_day2 = zeros(120*246,14);
-    subMem_day3 = zeros(120*246,14);
-    subMem_day4 = zeros(120*246,14);
+    subMem_day1_IRAF = zeros(120*246,14);
+    subMem_day2_IRAF = zeros(120*246,14);
+    subMem_day3_IRAF = zeros(120*246,14);
+    subMem_day4_IRAF = zeros(120*246,14);
     % note, we dont' need separate tables for PRET. The items, brain data, and RSA are all about Encoding.
     % we need two columns that tell us whether that item was subsequently remembered during CRET and PRET
 
     counter = 1;
     for num = 1:246 %all ROIs
 
-        subMem_day1(counter:counter+119,:) = horzcat(subMem_day1,PRET_SR_day1,IRAF_sem_day1(:,num),IRAF_layer3_day1(:,num),IRAF_layer10_day1(:,num),IRAF_layer18_day1(:,num),repmat(num,120,1));
-        subMem_day2_(counter:counter+119,:) = horzcat(subMem_day2,PRET_SR_day2,IRAF_sem_day2(:,num),IRAF_layer3_day2(:,num),IRAF_layer10_day2(:,num),IRAF_layer18_day2(:,num),repmat(num,120,1));
-        subMem_day3(counter:counter+119,:) = horzcat(subMem_day3,PRET_SR_day3,IRAF_sem_day3(:,num),IRAF_layer3_day3(:,num),IRAF_layer10_day3(:,num),IRAF_layer18_day3(:,num),repmat(num,120,1));
-        subMem_day4(counter:counter+119,:) = horzcat(subMem_day4,PRET_SR_day4,IRAF_sem_day4(:,num),IRAF_layer3_day4(:,num),IRAF_layer10_day4(:,num),IRAF_layer18_day4(:,num),repmat(num,120,1));
+        subMem_day1_IRAF(counter:counter+119,:) = horzcat(subMem_day1,PRET_SR_day1,IRAF_sem_day1(:,num),IRAF_layer3_day1(:,num),IRAF_layer10_day1(:,num),IRAF_layer18_day1(:,num),repmat(num,120,1));
+        subMem_day2_IRAF(counter:counter+119,:) = horzcat(subMem_day2,PRET_SR_day2,IRAF_sem_day2(:,num),IRAF_layer3_day2(:,num),IRAF_layer10_day2(:,num),IRAF_layer18_day2(:,num),repmat(num,120,1));
+        subMem_day3_IRAF(counter:counter+119,:) = horzcat(subMem_day3,PRET_SR_day3,IRAF_sem_day3(:,num),IRAF_layer3_day3(:,num),IRAF_layer10_day3(:,num),IRAF_layer18_day3(:,num),repmat(num,120,1));
+        subMem_day4_IRAF(counter:counter+119,:) = horzcat(subMem_day4,PRET_SR_day4,IRAF_sem_day4(:,num),IRAF_layer3_day4(:,num),IRAF_layer10_day4(:,num),IRAF_layer18_day4(:,num),repmat(num,120,1));
 
         counter = counter + 120;
 
@@ -633,10 +633,10 @@ for subj = 1:length(subjects)
     % add the subject-specific 29,520 rows of output to the all-subjects
     % array (120 trials * 246 ROIs) that is length(subjects * 29520 long
 
-    allSubj_day1(subject_counter:subject_counter+29519,:) = subMem_day1;
-    allSubj_day2(subject_counter:subject_counter+29519,:) = subMem_day2;
-    allSubj_day3(subject_counter:subject_counter+29519,:) = subMem_day3;
-    allSubj_day4(subject_counter:subject_counter+29519,:) = subMem_day4;
+    allSubj_day1_IRAF(subject_counter:subject_counter+29519,:) = subMem_day1_IRAF;
+    allSubj_day2_IRAF(subject_counter:subject_counter+29519,:) = subMem_day2_IRAF;
+    allSubj_day3_IRAF(subject_counter:subject_counter+29519,:) = subMem_day3_IRAF;
+    allSubj_day4_IRAF(subject_counter:subject_counter+29519,:) = subMem_day4_IRAF;
 
     subject_counter = subject_counter + 29520;
     
@@ -645,10 +645,10 @@ for subj = 1:length(subjects)
 end %subj loop
 
 destination = '/Volumes/Data/Simon/NetTMS.01/Analysis/SingleTrialModels/June_2023_LSS/step7_output/';
-save(strcat(destination,'allSubj_day1.mat'),'allSubj_day1')
-save(strcat(destination,'allSubj_day2.mat'),'allSubj_day2')
-save(strcat(destination,'allSubj_day3.mat'),'allSubj_day3')
-save(strcat(destination,'allSubj_day4.mat'),'allSubj_day4')
+save(strcat(destination,'allSubj_day1_IRAF.mat'),'allSubj_day1_IRAF')
+save(strcat(destination,'allSubj_day2_IRAF.mat'),'allSubj_day2_IRAF')
+save(strcat(destination,'allSubj_day3_IRAF.mat'),'allSubj_day3_IRAF')
+save(strcat(destination,'allSubj_day4_IRAF.mat'),'allSubj_day4_IRAF')
 
 
 %%%% PART 2: take Similarity, SimBin, and PairID, which has 6720 rows for
@@ -663,10 +663,10 @@ save(strcat(destination,'allSubj_day4.mat'),'allSubj_day4')
 %%%% PART 2: take Similarity, SimBin, and PairID, which has 6720 rows for
 %%%% 480 trials per subject and 14 subjects.
 
-allSubj_day1_tbl = array2table(allSubj_day1,'VariableNames',{'sub_no','day_no','run_no','trial_no','stimID','EncRun','CRET_SR','CR_div_totalNew','PRET_SR','sem','vis_l03','vis_l10','vis_l18','ROI'});
-allSubj_day2_tbl = array2table(allSubj_day2,'VariableNames',{'sub_no','day_no','run_no','trial_no','stimID','EncRun','CRET_SR','CR_div_totalNew','PRET_SR','sem','vis_l03','vis_l10','vis_l18','ROI'});
-allSubj_day3_tbl = array2table(allSubj_day3,'VariableNames',{'sub_no','day_no','run_no','trial_no','stimID','EncRun','CRET_SR','CR_div_totalNew','PRET_SR','sem','vis_l03','vis_l10','vis_l18','ROI'});
-allSubj_day4_tbl = array2table(allSubj_day4,'VariableNames',{'sub_no','day_no','run_no','trial_no','stimID','EncRun','CRET_SR','CR_div_totalNew','PRET_SR','sem','vis_l03','vis_l10','vis_l18','ROI'});
+allSubj_day1_IRAF_tbl = array2table(allSubj_day1_IRAF,'VariableNames',{'sub_no','day_no','run_no','trial_no','stimID','EncRun','CRET_SR','CR_div_totalNew','PRET_SR','sem','vis_l03','vis_l10','vis_l18','ROI'});
+allSubj_day2_IRAF_tbl = array2table(allSubj_day2_IRAF,'VariableNames',{'sub_no','day_no','run_no','trial_no','stimID','EncRun','CRET_SR','CR_div_totalNew','PRET_SR','sem','vis_l03','vis_l10','vis_l18','ROI'});
+allSubj_day3_IRAF_tbl = array2table(allSubj_day3_IRAF,'VariableNames',{'sub_no','day_no','run_no','trial_no','stimID','EncRun','CRET_SR','CR_div_totalNew','PRET_SR','sem','vis_l03','vis_l10','vis_l18','ROI'});
+allSubj_day4_IRAF_tbl = array2table(allSubj_day4_IRAF,'VariableNames',{'sub_no','day_no','run_no','trial_no','stimID','EncRun','CRET_SR','CR_div_totalNew','PRET_SR','sem','vis_l03','vis_l10','vis_l18','ROI'});
 
 
 % add the similarity, SimBin, and pairID cols
@@ -720,7 +720,7 @@ allValues_day4 = horzcat(allSubj_day4_IRAF,allSubjSimPair_day4);
 allTable = vertcat(allValues_day1,allValues_day2,allValues_day3,allValues_day4);
 
 destination = '/Volumes/Data/Simon/NetTMS.01/Analysis/SingleTrialModels/June_2023_LSS/IRAF_for_Simon/';
-writetable(allTable,strcat(destination,'all_RSA_output_sep17.csv'),'Delimiter',',')
+writetable(allTable,strcat(destination,'all_IRAF_output_sep17.csv'),'Delimiter',',')
 
 
 
