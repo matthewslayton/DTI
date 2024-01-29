@@ -451,45 +451,96 @@ allStats <- c(totalIndirect_data,totalIndirect_mean,totalIndirect_sd,totalIndire
 
 
 ##### Continue quantifying results
-
 one_cat <- read_excel("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/remove_one_category_atATime.xlsx")
 one_reduced_cat <- read_excel("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/remove_one_reduced_category_atATime.xlsx")
 med_analysis <- read_excel("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/medAnalysis_multilevel_unilateral_with_Hipp_A_and_P.xlsx")
 rsq <- read_excel("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/medAnalysis_multilevel_unilateral_varianceExplained.xlsx")
 
+data_from_previous_step <- read_excel("/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/remove_one_category_atATime.xlsx")
+
+# (5a) fun with paired t-tests
+### the goal here is to get the mediation and rsq results from the mediation analysis 
+### that uses all categories and compare that data with the results when we
+### removed one category at a time.
 
 # now, I'm interested in total indirect effect, c path, rsq_y, rsq_m1
-
 all_cat_totalInd <- subset(med_analysis,resultType=="totalIndirect" & tbl=="encycl" & mem=="lexical_CR")
 all_cat_c <- subset(med_analysis,resultType=="c" & tbl=="encycl" & mem=="lexical_CR")
 all_cat_rsq_y <- subset(rsq,resultType=="rsq_y" & tbl=="encycl" & mem=="lexical_CR")
 all_cat_rsq_m1 <- subset(rsq,resultType=="rsq_m1" & tbl=="encycl" & mem=="lexical_CR")
+all_cat_rsq_m2 <- subset(rsq, resultType == "rsq_m2" & tbl == "encycl" & mem == "lexical_CR")
+all_cat_rsq_m3 <- subset(rsq, resultType == "rsq_m3" & tbl == "encycl" & mem == "lexical_CR")
+all_cat_rsq_m4 <- subset(rsq, resultType == "rsq_m4" & tbl == "encycl" & mem == "lexical_CR")
+all_cat_rsq_m5 <- subset(rsq, resultType == "rsq_m5" & tbl == "encycl" & mem == "lexical_CR")
+all_cat_rsq_m6 <- subset(rsq, resultType == "rsq_m6" & tbl == "encycl" & mem == "lexical_CR")
+all_cat_rsq_m7 <- subset(rsq, resultType == "rsq_m7" & tbl == "encycl" & mem == "lexical_CR")
+all_cat_rsq_m8 <- subset(rsq, resultType == "rsq_m8" & tbl == "encycl" & mem == "lexical_CR")
 
 one_cat_totalInd <- subset(one_cat,path=="totalIndirect" & tbl=="encycl" & mem=="lexical_CR")
 one_cat_c <- subset(one_cat,path=="c" & tbl=="encycl" & mem=="lexical_CR")
 one_cat_rsq_y <- subset(one_cat,path=="rsq_y" & tbl=="encycl" & mem=="lexical_CR")
 one_cat_rsq_m1 <- subset(one_cat,path=="rsq_m1" & tbl=="encycl" & mem=="lexical_CR")
+one_cat_rsq_m2 <- subset(one_cat, path == "rsq_m2" & tbl == "encycl" & mem == "lexical_CR")
+one_cat_rsq_m3 <- subset(one_cat, path == "rsq_m3" & tbl == "encycl" & mem == "lexical_CR")
+one_cat_rsq_m4 <- subset(one_cat, path == "rsq_m4" & tbl == "encycl" & mem == "lexical_CR")
+one_cat_rsq_m5 <- subset(one_cat, path == "rsq_m5" & tbl == "encycl" & mem == "lexical_CR")
+one_cat_rsq_m6 <- subset(one_cat, path == "rsq_m6" & tbl == "encycl" & mem == "lexical_CR")
+one_cat_rsq_m7 <- subset(one_cat, path == "rsq_m7" & tbl == "encycl" & mem == "lexical_CR")
+one_cat_rsq_m8 <- subset(one_cat, path == "rsq_m8" & tbl == "encycl" & mem == "lexical_CR")
+
 
 one_reduced_cat_totalInd <- subset(one_reduced_cat,path=="totalIndirect" & tbl=="encycl" & mem=="lexical_CR")
 one_reduced_cat_c <- subset(one_reduced_cat,path=="c" & tbl=="encycl" & mem=="lexical_CR")
 one_reduced_cat_rsq_y <- subset(one_reduced_cat,path=="rsq_y" & tbl=="encycl" & mem=="lexical_CR")
 one_reduced_cat_rsq_m1 <- subset(one_reduced_cat,path=="rsq_m1" & tbl=="encycl" & mem=="lexical_CR")
+one_reduced_cat_rsq_m2 <- subset(one_reduced_cat, path == "rsq_m2" & tbl == "encycl" & mem == "lexical_CR")
+one_reduced_cat_rsq_m3 <- subset(one_reduced_cat, path == "rsq_m3" & tbl == "encycl" & mem == "lexical_CR")
+one_reduced_cat_rsq_m4 <- subset(one_reduced_cat, path == "rsq_m4" & tbl == "encycl" & mem == "lexical_CR")
+one_reduced_cat_rsq_m5 <- subset(one_reduced_cat, path == "rsq_m5" & tbl == "encycl" & mem == "lexical_CR")
+one_reduced_cat_rsq_m6 <- subset(one_reduced_cat, path == "rsq_m6" & tbl == "encycl" & mem == "lexical_CR")
+one_reduced_cat_rsq_m7 <- subset(one_reduced_cat, path == "rsq_m7" & tbl == "encycl" & mem == "lexical_CR")
+one_reduced_cat_rsq_m8 <- subset(one_reduced_cat, path == "rsq_m8" & tbl == "encycl" & mem == "lexical_CR")
+
 
 # now sort by ROI so they're in the same order
 all_cat_totalInd_sorted <- all_cat_totalInd[order(all_cat_totalInd$ROI), ]
 all_cat_c_sorted <- all_cat_c[order(all_cat_c$ROI), ]
 all_cat_rsq_y_sorted <- all_cat_rsq_y[order(all_cat_rsq_y$ROI), ]
 all_cat_rsq_m1_sorted <- all_cat_rsq_m1[order(all_cat_rsq_m1$ROI), ]
+all_cat_rsq_m2_sorted <- all_cat_rsq_m2[order(all_cat_rsq_m2$ROI), ]
+all_cat_rsq_m3_sorted <- all_cat_rsq_m3[order(all_cat_rsq_m3$ROI), ]
+all_cat_rsq_m4_sorted <- all_cat_rsq_m4[order(all_cat_rsq_m4$ROI), ]
+all_cat_rsq_m5_sorted <- all_cat_rsq_m5[order(all_cat_rsq_m5$ROI), ]
+all_cat_rsq_m6_sorted <- all_cat_rsq_m6[order(all_cat_rsq_m6$ROI), ]
+all_cat_rsq_m7_sorted <- all_cat_rsq_m7[order(all_cat_rsq_m7$ROI), ]
+all_cat_rsq_m8_sorted <- all_cat_rsq_m8[order(all_cat_rsq_m8$ROI), ]
+
 
 one_cat_totalInd_sorted <- one_cat_totalInd[order(one_cat_totalInd$ROI), ]
 one_cat_c_sorted <- one_cat_c[order(one_cat_c$ROI), ]
 one_cat_rsq_y_sorted <- one_cat_rsq_y[order(one_cat_rsq_y$ROI), ]
 one_cat_rsq_m1_sorted <- one_cat_rsq_m1[order(one_cat_rsq_m1$ROI), ]
+one_cat_rsq_m2_sorted <- one_cat_rsq_m2[order(one_cat_rsq_m2$ROI), ]
+one_cat_rsq_m3_sorted <- one_cat_rsq_m3[order(one_cat_rsq_m3$ROI), ]
+one_cat_rsq_m4_sorted <- one_cat_rsq_m4[order(one_cat_rsq_m4$ROI), ]
+one_cat_rsq_m5_sorted <- one_cat_rsq_m5[order(one_cat_rsq_m5$ROI), ]
+one_cat_rsq_m6_sorted <- one_cat_rsq_m6[order(one_cat_rsq_m6$ROI), ]
+one_cat_rsq_m7_sorted <- one_cat_rsq_m7[order(one_cat_rsq_m7$ROI), ]
+one_cat_rsq_m8_sorted <- one_cat_rsq_m8[order(one_cat_rsq_m8$ROI), ]
+
 
 one_reduced_cat_totalInd_sorted <- one_reduced_cat_totalInd[order(one_reduced_cat_totalInd$ROI), ]
 one_reduced_cat_c_sorted <- one_reduced_cat_c[order(one_reduced_cat_c$ROI), ]
 one_reduced_cat_rsq_y_sorted <- one_reduced_cat_rsq_y[order(one_reduced_cat_rsq_y$ROI), ]
 one_reduced_cat_rsq_m1_sorted <- one_reduced_cat_rsq_m1[order(one_reduced_cat_rsq_m1$ROI), ]
+one_reduced_cat_rsq_m2_sorted <- one_reduced_cat_rsq_m2[order(one_reduced_cat_rsq_m2$ROI), ]
+one_reduced_cat_rsq_m3_sorted <- one_reduced_cat_rsq_m3[order(one_reduced_cat_rsq_m3$ROI), ]
+one_reduced_cat_rsq_m4_sorted <- one_reduced_cat_rsq_m4[order(one_reduced_cat_rsq_m4$ROI), ]
+one_reduced_cat_rsq_m5_sorted <- one_reduced_cat_rsq_m5[order(one_reduced_cat_rsq_m5$ROI), ]
+one_reduced_cat_rsq_m6_sorted <- one_reduced_cat_rsq_m6[order(one_reduced_cat_rsq_m6$ROI), ]
+one_reduced_cat_rsq_m7_sorted <- one_reduced_cat_rsq_m7[order(one_reduced_cat_rsq_m7$ROI), ]
+one_reduced_cat_rsq_m8_sorted <- one_reduced_cat_rsq_m8[order(one_reduced_cat_rsq_m8$ROI), ]
+
 
 # paired t-test is if you're comparing the absence of one item to one other case, such as all the items included
 #t.test(df$category1, df$category2, paired = TRUE)
@@ -500,26 +551,59 @@ curr_col_totalInd_all <- all_cat_totalInd_sorted[,6]
 curr_col_c_all <- all_cat_c_sorted[,6]
 curr_col_rsq_y_all <- all_cat_rsq_y_sorted[,6]
 curr_col_rsq_m1_all <- all_cat_rsq_m1_sorted[,6]
+curr_col_rsq_m2_all <- all_cat_rsq_m2_sorted[,6]
+curr_col_rsq_m3_all <- all_cat_rsq_m3_sorted[,6]
+curr_col_rsq_m4_all <- all_cat_rsq_m4_sorted[,6]
+curr_col_rsq_m5_all <- all_cat_rsq_m5_sorted[,6]
+curr_col_rsq_m6_all <- all_cat_rsq_m6_sorted[,6]
+curr_col_rsq_m7_all <- all_cat_rsq_m7_sorted[,6]
+curr_col_rsq_m8_all <- all_cat_rsq_m8_sorted[,6]
 
 #these are from the 12 cat case
 totalInd_12cat <- one_cat_totalInd_sorted[,6:17]
 c_12cat <- one_cat_c_sorted[,6:17]
 rsq_y_12cat <- one_cat_rsq_y_sorted[,6:17]
 rsq_m1_12cat <- one_cat_rsq_m1_sorted[,6:17]
+rsq_m2_12cat <- one_cat_rsq_m2_sorted[,6:17]
+rsq_m3_12cat <- one_cat_rsq_m3_sorted[,6:17]
+rsq_m4_12cat <- one_cat_rsq_m4_sorted[,6:17]
+rsq_m5_12cat <- one_cat_rsq_m5_sorted[,6:17]
+rsq_m6_12cat <- one_cat_rsq_m6_sorted[,6:17]
+rsq_m7_12cat <- one_cat_rsq_m7_sorted[,6:17]
+rsq_m8_12cat <- one_cat_rsq_m8_sorted[,6:17]
 
 #these are from the 5 cat case
 totalInd_5cat <- one_reduced_cat_totalInd_sorted[,c(7,8,10)] 
 c_5cat <- one_reduced_cat_c_sorted[,c(7,8,10)] 
 rsq_y_5cat <- one_reduced_cat_rsq_y_sorted[,c(7,8,10)] 
 rsq_m1_5cat <- one_reduced_cat_rsq_m1_sorted[,c(7,8,10)] 
+rsq_m2_5cat <- one_reduced_cat_rsq_m2_sorted[,c(7,8,10)]
+rsq_m3_5cat <- one_reduced_cat_rsq_m3_sorted[,c(7,8,10)]
+rsq_m4_5cat <- one_reduced_cat_rsq_m4_sorted[,c(7,8,10)]
+rsq_m5_5cat <- one_reduced_cat_rsq_m5_sorted[,c(7,8,10)]
+rsq_m6_5cat <- one_reduced_cat_rsq_m6_sorted[,c(7,8,10)]
+rsq_m7_5cat <- one_reduced_cat_rsq_m7_sorted[,c(7,8,10)]
+rsq_m8_5cat <- one_reduced_cat_rsq_m8_sorted[,c(7,8,10)]
 
 ### set up storage df
+# category_names <- colnames(totalInd_12cat)
+# t_test_results <- data.frame(
+#   Category = rep(category_names, each = 4),
+#   ResultType = rep(c("totalInd", "c", "rsq_y", "rsq_m1"), times = 12),
+#   P_Value = numeric(48),
+#   FDR_P_Value = numeric(48),  # Added column for FDR corrected p-values
+#   stringsAsFactors = FALSE
+# )
+
+### set up t-tests for both 12cat and 5cat with the all category results
 category_names <- colnames(totalInd_12cat)
+result_types <- c("totalInd", "c", "rsq_y", "rsq_m1", "rsq_m2", "rsq_m3", "rsq_m4", "rsq_m5", "rsq_m6", "rsq_m7", "rsq_m8")
+
 t_test_results <- data.frame(
-  Category = rep(category_names, each = 4),
-  ResultType = rep(c("totalInd", "c", "rsq_y", "rsq_m1"), times = 12),
-  P_Value = numeric(48),
-  FDR_P_Value = numeric(48),  # Added column for FDR corrected p-values
+  Category = rep(category_names, each = length(result_types)),
+  ResultType = rep(result_types, times = length(category_names)),
+  P_Value = numeric(length(category_names) * length(result_types)),
+  FDR_P_Value = numeric(length(category_names) * length(result_types)),
   stringsAsFactors = FALSE
 )
 
@@ -528,80 +612,209 @@ for (i in 1:length(category_names)) {
   # T-test for totalInd
   test_result_totalInd <- t.test(totalInd_12cat[, i], curr_col_totalInd_all[, 1])
   t_test_results$P_Value[(i - 1) * 4 + 1] <- test_result_totalInd$p.value
-  
   # T-test for c
   test_result_c <- t.test(c_12cat[, i], curr_col_totalInd_all[, 1])
   t_test_results$P_Value[(i - 1) * 4 + 2] <- test_result_c$p.value
-  
   # T-test for rsq_y
   test_result_rsq_y <- t.test(rsq_y_12cat[, i], curr_col_totalInd_all[, 1])
   t_test_results$P_Value[(i - 1) * 4 + 3] <- test_result_rsq_y$p.value
-  
   # T-test for rsq_m1
   test_result_rsq_m1 <- t.test(rsq_m1_12cat[, i], curr_col_totalInd_all[, 1])
   t_test_results$P_Value[(i - 1) * 4 + 4] <- test_result_rsq_m1$p.value
+  # T-test for rsq_m2
+  test_result_rsq_m2 <- t.test(rsq_m2_12cat[, i], curr_col_rsq_m2_all[, 1])
+  t_test_results$P_Value[(i - 1) * length(result_types) + 5] <- test_result_rsq_m2$p.value
+  # T-test for rsq_m3
+  test_result_rsq_m3 <- t.test(rsq_m3_12cat[, i], curr_col_rsq_m3_all[, 1])
+  t_test_results$P_Value[(i - 1) * length(result_types) + 6] <- test_result_rsq_m3$p.value
+  # T-test for rsq_m4
+  test_result_rsq_m4 <- t.test(rsq_m4_12cat[, i], curr_col_rsq_m4_all[, 1])
+  t_test_results$P_Value[(i - 1) * length(result_types) + 7] <- test_result_rsq_m4$p.value
+  # T-test for rsq_m5
+  test_result_rsq_m5 <- t.test(rsq_m5_12cat[, i], curr_col_rsq_m5_all[, 1])
+  t_test_results$P_Value[(i - 1) * length(result_types) + 8] <- test_result_rsq_m5$p.value
+  # T-test for rsq_m6
+  test_result_rsq_m6 <- t.test(rsq_m6_12cat[, i], curr_col_rsq_m6_all[, 1])
+  t_test_results$P_Value[(i - 1) * length(result_types) + 9] <- test_result_rsq_m6$p.value
+  # T-test for rsq_m7
+  test_result_rsq_m7 <- t.test(rsq_m7_12cat[, i], curr_col_rsq_m7_all[, 1])
+  t_test_results$P_Value[(i - 1) * length(result_types) + 10] <- test_result_rsq_m7$p.value
+  # T-test for rsq_m8
+  test_result_rsq_m8 <- t.test(rsq_m8_12cat[, i], curr_col_rsq_m8_all[, 1])
+  t_test_results$P_Value[(i - 1) * length(result_types) + 11] <- test_result_rsq_m8$p.value
 }
 
 t_test_results$FDR_P_Value <- p.adjust(t_test_results$P_Value, method = "fdr")
 
-filename <- '/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/ttest_anova_compare_cat_to_allMed.xlsx'
-# Create a new workbook or load an existing one
+# filename <- '/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/ttest_anova_compare_cat_to_allMed.xlsx'
+# # Create a new workbook or load an existing one
+# if (file.exists(filename)) {
+#   wb <- loadWorkbook(filename)
+# } else {
+#   wb <- createWorkbook()
+# }
+# sheet_name <- "12cat_results"  # Name this according to your data
+# addWorksheet(wb, sheet_name)
+# writeData(wb, sheet_name, t_test_results)
+# # Save the workbook
+# saveWorkbook(wb, filename, overwrite = TRUE)
+
+filename <- "/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/ttest_anova_compare_cat_to_allMed.xlsx"
+sheet_name <- "12cat_results"  
+
+# Load the workbook if it exists, otherwise create a new one
 if (file.exists(filename)) {
   wb <- loadWorkbook(filename)
 } else {
   wb <- createWorkbook()
 }
-sheet_name <- "12cat_results"  # Name this according to your data
+# Manually check if the sheet exists in the workbook
+sheet_names <- names(wb$worksheets)
+if (sheet_name %in% sheet_names) {
+  # Remove the existing sheet
+  removeWorksheet(wb, sheet_name)
+}
+# Add the sheet (new or replaced)
 addWorksheet(wb, sheet_name)
+# Write data to the worksheet
 writeData(wb, sheet_name, t_test_results)
 # Save the workbook
 saveWorkbook(wb, filename, overwrite = TRUE)
-  
-### set up storage df
+
+
+
+##### next run t-tests for 5cat
+
+result_types <- c("totalInd", "c", "rsq_y", "rsq_m1", "rsq_m2", "rsq_m3", "rsq_m4", "rsq_m5", "rsq_m6", "rsq_m7", "rsq_m8")
 category_names <- colnames(totalInd_5cat)
+
 t_test_results <- data.frame(
-  Category = rep(category_names, each = 4),
-  ResultType = rep(c("totalInd", "c", "rsq_y", "rsq_m1"), times = 3),
-  P_Value = numeric(12),
-  FDR_P_Value = numeric(12),  # Added column for FDR corrected p-values
+  Category = rep(category_names, each = length(result_types)),
+  ResultType = rep(result_types, times = length(category_names)),
+  P_Value = numeric(length(category_names) * length(result_types)),
+  FDR_P_Value = numeric(length(category_names) * length(result_types)),
   stringsAsFactors = FALSE
 )
 
-### run t-tests
+### set up storage df
+# category_names <- colnames(totalInd_5cat)
+# t_test_results <- data.frame(
+#   Category = rep(category_names, each = 4),
+#   ResultType = rep(c("totalInd", "c", "rsq_y", "rsq_m1"), times = 3),
+#   P_Value = numeric(12),
+#   FDR_P_Value = numeric(12),  # Added column for FDR corrected p-values
+#   stringsAsFactors = FALSE
+# )
+
+# ### run t-tests
+# for (i in 1:length(category_names)) {
+#   # T-test for totalInd
+#   test_result_totalInd <- t.test(totalInd_5cat[, i], curr_col_totalInd_all[, 1])
+#   t_test_results$P_Value[(i - 1) * 4 + 1] <- test_result_totalInd$p.value
+#   
+#   # T-test for c
+#   test_result_c <- t.test(c_5cat[, i], curr_col_totalInd_all[, 1])
+#   t_test_results$P_Value[(i - 1) * 4 + 2] <- test_result_c$p.value
+#   
+#   # T-test for rsq_y
+#   test_result_rsq_y <- t.test(rsq_y_5cat[, i], curr_col_totalInd_all[, 1])
+#   t_test_results$P_Value[(i - 1) * 4 + 3] <- test_result_rsq_y$p.value
+#   
+#   # T-test for rsq_m1
+#   test_result_rsq_m1 <- t.test(rsq_m1_5cat[, i], curr_col_totalInd_all[, 1])
+#   t_test_results$P_Value[(i - 1) * 4 + 4] <- test_result_rsq_m1$p.value
+# }
+
+# Assuming you have corresponding comparison columns for each result type
+comparison_columns <- list(
+  totalInd = curr_col_totalInd_all,
+  c = curr_col_c_all,
+  rsq_y = curr_col_rsq_y_all,
+  rsq_m1 = curr_col_rsq_m1_all,
+  rsq_m2 = curr_col_rsq_m2_all,
+  rsq_m3 = curr_col_rsq_m3_all,
+  rsq_m4 = curr_col_rsq_m4_all,
+  rsq_m5 = curr_col_rsq_m5_all,
+  rsq_m6 = curr_col_rsq_m6_all,
+  rsq_m7 = curr_col_rsq_m7_all,
+  rsq_m8 = curr_col_rsq_m8_all
+)
+
 for (i in 1:length(category_names)) {
   # T-test for totalInd
   test_result_totalInd <- t.test(totalInd_5cat[, i], curr_col_totalInd_all[, 1])
-  t_test_results$P_Value[(i - 1) * 4 + 1] <- test_result_totalInd$p.value
-  
+  t_test_results$P_Value[(i - 1) * length(result_types) + 1] <- test_result_totalInd$p.value
   # T-test for c
   test_result_c <- t.test(c_5cat[, i], curr_col_totalInd_all[, 1])
-  t_test_results$P_Value[(i - 1) * 4 + 2] <- test_result_c$p.value
-  
+  t_test_results$P_Value[(i - 1) * length(result_types) + 2] <- test_result_c$p.value
   # T-test for rsq_y
   test_result_rsq_y <- t.test(rsq_y_5cat[, i], curr_col_totalInd_all[, 1])
-  t_test_results$P_Value[(i - 1) * 4 + 3] <- test_result_rsq_y$p.value
-  
+  t_test_results$P_Value[(i - 1) * length(result_types) + 3] <- test_result_rsq_y$p.value
   # T-test for rsq_m1
   test_result_rsq_m1 <- t.test(rsq_m1_5cat[, i], curr_col_totalInd_all[, 1])
-  t_test_results$P_Value[(i - 1) * 4 + 4] <- test_result_rsq_m1$p.value
+  t_test_results$P_Value[(i - 1) * length(result_types) + 4] <- test_result_rsq_m1$p.value
+  # T-test for rsq_m2
+  test_result_rsq_m2 <- t.test(rsq_m2_5cat[, i], curr_col_rsq_m2_all[, 1])
+  t_test_results$P_Value[(i - 1) * length(result_types) + 5] <- test_result_rsq_m2$p.value
+  # T-test for rsq_m3
+  test_result_rsq_m3 <- t.test(rsq_m3_5cat[, i], curr_col_rsq_m3_all[, 1])
+  t_test_results$P_Value[(i - 1) * length(result_types) + 6] <- test_result_rsq_m3$p.value
+  # T-test for rsq_m4
+  test_result_rsq_m4 <- t.test(rsq_m4_5cat[, i], curr_col_rsq_m4_all[, 1])
+  t_test_results$P_Value[(i - 1) * length(result_types) + 7] <- test_result_rsq_m4$p.value
+  # T-test for rsq_m5
+  test_result_rsq_m5 <- t.test(rsq_m5_5cat[, i], curr_col_rsq_m5_all[, 1])
+  t_test_results$P_Value[(i - 1) * length(result_types) + 8] <- test_result_rsq_m5$p.value
+  # T-test for rsq_m6
+  test_result_rsq_m6 <- t.test(rsq_m6_5cat[, i], curr_col_rsq_m6_all[, 1])
+  t_test_results$P_Value[(i - 1) * length(result_types) + 9] <- test_result_rsq_m6$p.value
+  # T-test for rsq_m7
+  test_result_rsq_m7 <- t.test(rsq_m7_5cat[, i], curr_col_rsq_m7_all[, 1])
+  t_test_results$P_Value[(i - 1) * length(result_types) + 10] <- test_result_rsq_m7$p.value
+  # T-test for rsq_m8
+  test_result_rsq_m8 <- t.test(rsq_m8_5cat[, i], curr_col_rsq_m8_all[, 1])
+  t_test_results$P_Value[(i - 1) * length(result_types) + 11] <- test_result_rsq_m8$p.value
 }
 
 t_test_results$FDR_P_Value <- p.adjust(t_test_results$P_Value, method = "fdr")
 
-filename <- '/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/ttest_anova_compare_cat_to_allMed.xlsx'
-# Create a new workbook or load an existing one
+filename <- "/Users/matthewslayton/Library/CloudStorage/OneDrive-DukeUniversity/STAMP/ttest_anova_compare_cat_to_allMed.xlsx"
+sheet_name <- "5cat_results"
+
+# Load the workbook if it exists, otherwise create a new one
 if (file.exists(filename)) {
   wb <- loadWorkbook(filename)
 } else {
   wb <- createWorkbook()
 }
-sheet_name <- "5cat_results"  # Name this according to your data
+# Check if the sheet exists in the workbook
+if (sheet_name %in% names(wb$worksheets)) {
+  # Remove the existing sheet
+  removeWorksheet(wb, sheet_name)
+}
+# Add the sheet (new or replaced)
 addWorksheet(wb, sheet_name)
+# Write data to the worksheet
 writeData(wb, sheet_name, t_test_results)
 # Save the workbook
 saveWorkbook(wb, filename, overwrite = TRUE)
 
 
+# 
+# # Create a new workbook or load an existing one
+# if (file.exists(filename)) {
+#   wb <- loadWorkbook(filename)
+# } else {
+#   wb <- createWorkbook()
+# }
+# sheet_name <- "5cat_results"  # Name this according to your data
+# addWorksheet(wb, sheet_name)
+# writeData(wb, sheet_name, t_test_results)
+# # Save the workbook
+# saveWorkbook(wb, filename, overwrite = TRUE)
+
+
+### error with extra characters in a string. Here's how to remove them
 # there's weird stuff in "fruit" so let's remove it
 clean_colnames <- function(name) {
   name <- gsub("\r", "", name)  # Remove carriage return
@@ -618,7 +831,7 @@ curr_col_rsq_y_all <- as.vector(unlist(curr_col_rsq_y_all))
 curr_col_rsq_m1_all <- as.vector(unlist(curr_col_rsq_m1_all))
 
 
-### ANOVA
+### (5b) ANOVA
 ####### 12 CAT
 # Adding curr_col_totalInd_all as a new column to totalInd_12cat
 totalInd_12cat$curr_col_totalInd_all <- curr_col_totalInd_all
